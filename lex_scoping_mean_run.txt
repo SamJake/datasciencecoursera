@@ -1,0 +1,100 @@
+> x
+[1] 100 250 290 330 567 104 533
+> l <- makeVector(x)
+> l
+$set
+function (y) 
+{
+    x <<- y
+    m <<- NULL
+}
+<environment: 0x0000000015415bc8>
+
+$get
+function () 
+x
+<environment: 0x0000000015415bc8>
+
+$setmean
+function (mean) 
+m <<- mean
+<environment: 0x0000000015415bc8>
+
+$getmean
+function () 
+m
+<environment: 0x0000000015415bc8>
+
+> class(l)
+[1] "list"
+> 
+> 
+> 
+> cachemean(l)
+[1] 310.5714
+> cachemean(l)
+Extracting mean from cache....
+[1] 310.5714
+> cachemean(l)
+Extracting mean from cache....
+[1] 310.5714
+> cachemean(l)
+Extracting mean from cache....
+[1] 310.5714
+> ?solve
+> 
+> 
+> 
+> 
+> x2 <- c(11,22,33,44,55,66,77)
+> x2
+[1] 11 22 33 44 55 66 77
+> l2 <- makeVector(x2)
+> class(l2)
+[1] "list"
+> l2
+$set
+function (y) 
+{
+    x <<- y
+    m <<- NULL
+}
+<environment: 0x000000000b3e3948>
+
+$get
+function () 
+x
+<environment: 0x000000000b3e3948>
+
+$setmean
+function (mean) 
+m <<- mean
+<environment: 0x000000000b3e3948>
+
+$getmean
+function () 
+m
+<environment: 0x000000000b3e3948>
+
+> 
+> 
+> 
+> 
+> 
+> cachemean(l2)
+[1] 44
+> cachemean(l2)
+Extracting mean from cache....
+[1] 44
+> cachemean(l2)
+Extracting mean from cache....
+[1] 44
+> cachemean(l2)
+Extracting mean from cache....
+[1] 44
+> cachemean(l)
+Extracting mean from cache....
+[1] 310.5714
+> cachemean(l)
+Extracting mean from cache....
+[1] 310.5714
