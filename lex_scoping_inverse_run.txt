@@ -1,0 +1,49 @@
+> mm
+     [,1] [,2]
+[1,]    4    3
+[2,]    3    2
+> q1 <- makeCacheMatrix(mm) 
+> class(q1)
+[1] "list"
+> q1
+$set
+function (y) 
+{
+    x <<- y
+    inv <<- NULL
+}
+<environment: 0x000000000b794820>
+
+$get
+function () 
+x
+<environment: 0x000000000b794820>
+
+$setinv
+function (temp) 
+inv <<- temp
+<environment: 0x000000000b794820>
+
+$getinv
+function () 
+inv
+<environment: 0x000000000b794820>
+
+> 
+> 
+> 
+> cacheSolve(q1)
+     [,1] [,2]
+[1,]   -2    3
+[2,]    3   -4
+> cacheSolve(q1)
+Extracting inverse matrix from cache....
+     [,1] [,2]
+[1,]   -2    3
+[2,]    3   -4
+> cacheSolve(q1)
+Extracting inverse matrix from cache....
+     [,1] [,2]
+[1,]   -2    3
+[2,]    3   -4
+> 
