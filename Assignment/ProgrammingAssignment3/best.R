@@ -1,6 +1,6 @@
 pre <- function(state,outcome)
 {
-  setwd("C:/Users/sam.jacob/Downloads/rprog3")
+  setwd("C:/Users/Sam/Downloads/rp")
   csv <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
   csv <- csv[,c(2,7,11,17,23)]
   csv$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack <- as.numeric(csv$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack)
