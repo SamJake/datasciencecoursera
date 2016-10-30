@@ -35,7 +35,7 @@ rankall <- function(outcome, num="best")
     },num
                       )
   df <- data.frame(unlist(processed),names(processed))
-  names(df) <- c("Hospital.Name","State")
+  names(df) <- c("hospital","state")
   df
 }
 
