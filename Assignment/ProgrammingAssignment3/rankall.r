@@ -18,28 +18,19 @@ rankall <- function(outcome, num="best")
   processed <- lapply(csv_split,function(x,num) 
   {
     if(num=="best"){
+      #x <- x[order(x$outcome,x$Hospital.Name,na.last = NA),]
       x <- x[order(x$outcome,na.last = NA),]
-      m <- x[1,3]
-      x <- subset(x,outcome==m)
-      x <- x[order(x$Hospital.Name),]
-      temp <- x$Hospital.Name[1]
-      return(temp)
+      return(x$Hospital.Name[1])
     }else if(num=="worst"){
       x <- x[order(x$outcome,na.last = NA),]
-      m <- x[nrow(x),3]
-      x <- subset(x,outcome==m)
-      x <- x[order(x$Hospital.Name),]
-      temp <- x$Hospital.Name[nrow(x)]
-      return(temp)
+      #m <- x[nrow(x),2]
+      #x <- subset(x,outcome==m)
+      return(x$Hospital.Name[nrow(x)])
     }else
     {#Handle NAs here
-      x <- x[order(x$outcome,na.last = NA),]
-      if(nrow(x)==0) return(NA)
-      m <- x[as.numeric(num),3]
-      x <- subset(x,outcome==m)
-      x <- x[order(x$Hospital.Name),]
-      temp <- x$Hospital.Name[1]
-      return(temp)
+      x <- x[order(x$outcome,x$Hospital.Name,na.last = NA),]
+      if(nrow(x)==0 | num >nrow(x)) return(NA)
+      return(x$Hospital.Name[num])
     }
     },num
                       )
