@@ -2,11 +2,15 @@
 library("data.table")
 library("sqldf")
 library("dplyr")
+home <- "C:/Users/sam.jacob/Documents/data"
 
-#reading all training & test files into memory
+
+
+
+#reading all Inertial Signals training & test files (9+9) into memory
 read_files <- function(directory,pattern="")
 {
-  setwd(directory)
+  setwd(paste0(home,directory))
   for(f in dir(pattern = pattern))
   {
     assign(f,fread(f))
@@ -15,8 +19,10 @@ read_files <- function(directory,pattern="")
   }
 }
 
-dir1 <- "C:/Users/Sam/Downloads/UCI HAR Dataset/train/Inertial Signals"
-dir2 <- "C:/Users/Sam/Downloads/UCI HAR Dataset/test/Inertial Signals"
+
+
+dir1 <- "./UCI HAR Dataset/train/Inertial Signals"
+dir2 <- "./UCI HAR Dataset/test/Inertial Signals"
 
 system.time(read_files(dir1))
 system.time(read_files(dir2))
@@ -44,8 +50,12 @@ tm_nrow <- sapply(tm,function(x) {return(nrow(get(x)))})
 
 df_objects <- data.frame(Tr_Size=tr_sizes,Ts_Size=ts_sizes,Tm_Size=tm_sizes,Tr_Ncols=tr_ncol,Ts_Ncols=ts_ncol,Tm_Ncols=tm_ncol,Tr_Nrows=tr_nrow,Ts_Nrows=ts_nrow,Tm_Nrows=tm_nrow)
 
-dir3 <- "C:/Users/Sam/Downloads/UCI HAR Dataset/train"
-dir4 <- "C:/Users/Sam/Downloads/UCI HAR Dataset/test"
+
+
+
+#reading train & test files into memory
+dir3 <- "./UCI HAR Dataset/train"
+dir4 <- "./UCI HAR Dataset/test"
 
 system.time(read_files(dir3,"train"))
 system.time(read_files(dir4,"test"))
@@ -57,11 +67,18 @@ names(test)[1:2] <- c("Subject","labels")
 train <- cbind(subject_train,y_train,X_train)
 names(train)[1:2] <- c("Subject","labels")
 
-setwd("C:/Users/Sam/Downloads/UCI HAR Dataset")
+
+
+
+#reading feature & label files into memory
+setwd(paste0(home,"./UCI HAR Dataset"))
 features <- fread("features.txt")
 features <- as.data.frame(features)
 labels <- fread("activity_labels.txt")
 labels <- as.data.frame(labels)
+
+
+
 
 #Removing -,(,) and comma from features
 features$V2 <- gsub("[-(),]","",features$V2)
@@ -70,18 +87,24 @@ names(train)[3:563] <- features$V2
 names(test)[3:563] <- features$V2
 
 total <- rbind(train,test)
-
 t <- data.frame(labels = total$labels)
 
 l <- sqldf("select labels.V2 from t,labels where t.labels=labels.V1")
 total$labels <- as.character(l$V2)
 
+
+
+
+#Selecting fields that are either mean/std
 cols <- grepl("mean",names(total),ignore.case = T) | grepl("std",names(total),ignore.case = T)
 cols[1:2] <- TRUE
 selected <- total[,cols]
-names(selected) 
 
+
+
+#Grouping by based on Subject & Activity
 selected2 <- tbl_df(selected)
 by_person <- group_by(selected2,labels,Subject)
-summarize(by_person,sapply(names(by_person)[3:88],function(x) {paste0("mean(",x,")")}))
-sapply(names(by_person)[3:88])
+means <-paste(sapply(names(by_person)[3:88],function(x) {paste0("mean(",x,")")}),collapse = ",")
+sum <- eval(parse(text=paste("summarize(by_person,",means,")")))
+write.csv(sum,"summary.csv")
