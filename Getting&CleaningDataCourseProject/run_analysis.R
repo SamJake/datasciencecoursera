@@ -107,4 +107,9 @@ selected2 <- tbl_df(selected)
 by_person <- group_by(selected2,labels,Subject)
 means <-paste(sapply(names(by_person)[3:88],function(x) {paste0("mean(",x,")")}),collapse = ",")
 sum <- eval(parse(text=paste("summarize(by_person,",means,")")))
+
+names(sum) <- sapply(names(sum),function(x){gsub(")$","",x)})
+names(sum) <- sapply(names(sum),function(x){gsub("^mean\\(","mean_",x)})
+names(sum)[1] <- "Activity"
+
 write.csv(sum,"summary.csv")
