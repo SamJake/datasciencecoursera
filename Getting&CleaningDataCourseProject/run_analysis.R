@@ -7,7 +7,7 @@ home <- "C:/Users/sam.jacob/Documents/data"
 
 
 
-#reading all Inertial Signals training & test files (9+9) into memory
+#function to read all files in a directory
 read_files <- function(directory,pattern="")
 {
   setwd(paste0(home,directory))
@@ -20,7 +20,7 @@ read_files <- function(directory,pattern="")
 }
 
 
-
+#reading all Inertial Signals training & test files (9+9) into memory
 dir1 <- "./UCI HAR Dataset/train/Inertial Signals"
 dir2 <- "./UCI HAR Dataset/test/Inertial Signals"
 
